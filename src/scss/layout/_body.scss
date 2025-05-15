@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #1A1A1A;
+  font-family:'Montserrat', sans-serif;
+  color: #DAA520;
+}   
+
+
+.img{
+    width: 150px;
+    max-height: 200px;
+    object-fit: contain; //evita que la imagen se deforme
+}
+
+.btn-buy{
+   background-color: #FF5733; /* Rojo anaranjado */
+    color: #FFFFFF; /* Texto blanco */
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s; 
+    box-shadow: 4px 4px 10px rgba(255, 87, 51, 0.5);
+    margin-top: auto;
+    
+}
+
+
+.btn-buy:hover {
+    background-color: #C70039; }
+
+  .boxProduct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #2C2C2C;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 10px;
+    width: 200px;
+    gap: 10px;
+    
+  }
+
+  h3, p {
+    background-color: #2C2C2C;}
+    
+
+
+.list-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px;
+    max-width: 800px; 
+    margin: 0 auto 0 50px;
+
+}
+
