@@ -12,6 +12,7 @@ const url = 'https://fakestoreapi.com/products';
 //variables
 
 let products = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 
@@ -34,70 +35,88 @@ let products = [];
         const price = document.createElement('p');
         price.innerText = product.price + '€';
 
+        const stars = document.createElement('p');
+        stars.innerText = product.rating.rate + '⭐';
+
         const btnBuy = document.createElement('button');
         btnBuy.innerText = 'Comprar';
         btnBuy.className = 'btn-buy';
-        btnBuy.addEventListener('click', (event) => addToCart(product, event.target));
+        btnBuy.setAttribute("data-id", product.id);
+        btnBuy.addEventListener("click", (event) => toggleCart(product, event.target));
+
+        updateButtonState(btnBuy, product);
+
+        
         
         boxProduct.appendChild(img);
         boxProduct.appendChild(h3);
         boxProduct.appendChild(btnBuy);
-        boxProduct.appendChild(price);
+        boxProduct.appendChild(price) + boxProduct.appendChild(stars);
         listProducts.appendChild(boxProduct);
     }
 }
 
-//funcion para manejar el evento de click en el boton de comprar
+function updateButtonState(button, product) {
+    const exists = cart.find(item => item.id === product.id) !== undefined;
 
-function addToCart(product, button) {
-    const cartList = document.querySelector('.js-list-cart');
-
-    // Crear un nuevo elemento en el carrito con la info del producto
-    const cartItem = document.createElement('li');
-    cartItem.className = 'boxProductcart';
-
-    const img = document.createElement('img');
-    img.src = product.image;
-    img.alt = product.title;
-    img.className = 'img';
-
-    const title = document.createElement('h3');
-    title.innerText = product.title;
-
-    const price = document.createElement('p');
-    price.innerText = product.price + '€';
-
-    // Botón para eliminar el producto
-    const btnRemove = document.createElement('button');
-    btnRemove.innerText = 'Quitar';
-    btnRemove.className = 'btn-remove';
-    btnRemove.addEventListener('click', () => removeFromCart(cartItem, button));
-
-    
-    cartItem.appendChild(img);
-    cartItem.appendChild(title);
-    cartItem.appendChild(price);
-    cartItem.appendChild(btnRemove);
-
-    // Agregar el nuevo producto a la lista del carrito
-    cartList.appendChild(cartItem);
-
-    // Cambiar el estado del botón comprar
-    button.innerText = 'Añadido';
-    button.classList.add('added');
-    button.disabled = true; //apagamos el boton para evitar que se vuelva a agregar
-
+    if (exists) {
+        button.innerText = "Eliminar";
+        button.classList.add("added");
+    } else {
+        button.innerText = "Comprar";
+        button.classList.remove("added");
+    }
 }
-//funcion para eliminar el producto del carrito
-function removeFromCart(cartItem, button) {
-    cartItem.remove(); //  Elimina el producto del carrito
+// cambiar el boton de comprar a eliminar
+ function toggleCart(product, button) {
+    const exists = cart.find(item => item.id === product.id) !== undefined;
 
-    // Restaurar el botón en la tienda
-    button.innerText = 'Comprar';
-    button.classList.remove('added');
-    button.disabled = false; // ✅ Permite volver a agregarlo
+    if (!exists) {
+        cart.push(product);
+        
+    } else {
+        cart = cart.filter(item => item.id !== product.id);
+        
+    }
+
+    updateCartStorage();
+    renderCart();
+    updateButtonState(button, product);
+} 
+
+
+// añadir el producto al carrito
+function renderCart() {
+    const cartList = document.querySelector(".js-list-cart");
+    cartList.innerHTML = "";
+
+    cart.forEach(product => {
+        const cartItem = document.createElement("li");
+        cartItem.className = "boxProductcart";
+
+        const img = document.createElement("img");
+        img.src = product.image;
+        img.alt = product.title;
+        img.className = "img";
+
+        const title = document.createElement("h3");
+        title.innerText = product.title;
+
+        const price = document.createElement("p");
+        price.innerText = product.price + "€";
+
+        const btnRemove = document.createElement("button");
+        btnRemove.innerText = "Quitar";
+        btnRemove.className = "btn-remove";
+        btnRemove.addEventListener("click", () => toggleCart(product, document.querySelector(`[data-id="${product.id}"]`)));
+
+        cartItem.appendChild(img);
+        cartItem.appendChild(title);
+        cartItem.appendChild(price);
+        cartItem.appendChild(btnRemove);
+        cartList.appendChild(cartItem);
+    });
 }
-
 
 
 //funciones manejadoras
@@ -127,8 +146,10 @@ function handleClick(event){
 
 //Almacenar informacion en el local storage
 
+function updateCartStorage() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
 
- //mandar datos a la API
 
 
  //eventos
@@ -144,3 +165,4 @@ function handleClick(event){
 
 input.addEventListener('input', handleSearch);
 
+document.addEventListener("DOMContentLoaded", renderCart);

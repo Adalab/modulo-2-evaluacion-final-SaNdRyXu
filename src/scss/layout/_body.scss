@@ -63,8 +63,8 @@ body{
   .boxProductcart {
  
      
-    flex: 0 1 220px; /* ✅ No crece automáticamente, pero baja si no cabe en la fila */
-    max-width: 220px; /* ✅ Tamaño controlado */
+    flex: 0 1 220px; 
+    max-width: 220px; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,9 +104,9 @@ body{
 }
 
 .main-cart h1 {
-    margin-top: 0; /* ✅ Evita el exceso de espacio arriba */
-    margin-bottom: 10px; /* ✅ Espaciado más pequeño entre el título y los productos */
-    text-align: center; /* ✅ Asegura alineación correcta */
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center; 
 }
 .main-cart {
        background-color: #005F6B;
@@ -115,11 +115,11 @@ body{
     min-height: auto;
     flex-direction: column;
     display: flex;
-    flex-wrap: wrap; /* ✅ Permite que bajen cuando no haya espacio */
-    justify-content: flex-start; /* ✅ Alinea desde la izquierda */
+    flex-wrap: wrap; 
+    justify-content: flex-start; 
     align-items: center;
-    width: 100%; /* ✅ Asegura que ocupe todo el ancho disponible */
-    max-width: 800px; /* ✅ Evita que sea demasiado estrecho */
+    width: 100%;
+    max-width: 800px;
     gap: 15px;
 
 }
